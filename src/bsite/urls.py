@@ -6,7 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     
-    #  url(r'^$', 'bsite.views.home', name='home'),
+    url(r'^$', 'bsite.views.home', name='home'),
     url(r'^PriceCompare/', include('PriceCompare.urls', namespace='PriceCompare')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
