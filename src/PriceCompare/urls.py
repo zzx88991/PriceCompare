@@ -4,6 +4,6 @@ urlpatterns = patterns('',
 
 		url(r'^$', 'PriceCompare.views.index', name='index'),
 
-		url(r'^register/?$', 'PriceManager.views.register', name='register'),
+		url(r'^register/?$', 'PriceCompare.views.register', name='register'),
 
 		)
