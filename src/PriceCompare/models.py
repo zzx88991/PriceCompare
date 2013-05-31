@@ -4,6 +4,7 @@ from django.db import models
 from django.forms import ModelForm
 from django.core.exceptions import ValidationError
 import re
+import chardet
 
 # ---
 # Custom Fields with Validation rules
@@ -13,7 +14,8 @@ class NameField(models.CharField):
 
 	# A username consists of letters, numbers & Hanzi only
 	def to_python(self, value):
-		if not re.match(r'^[a-zA-Z0-9\u4e00-\u9fa5]+$', value):
+		value = value.strip()
+		if not re.match(ur'^[a-zA-Z0-9\u4e00-\u9fa5]+$', value):
 			raise ValidationError('用户名必须为字母，数字和汉字的组合且不能为空！')
 		return value
 
