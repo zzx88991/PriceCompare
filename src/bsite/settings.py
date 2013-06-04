@@ -1,7 +1,4 @@
 # Django settings for bsite project.
-import os
-
-ROOT_PATH = os.path.dirname(__file__)
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -15,7 +12,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'bsite_DB',                      # Or path to database file if using sqlite3.
+        'NAME': 'bsite.db',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
@@ -110,8 +107,9 @@ ROOT_URLCONF = 'bsite.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'bsite.wsgi.application'
 
+import os
 TEMPLATE_DIRS = (
-		os.path.join(ROOT_PATH, 'templates').replace('\\', '/'),
+    os.path.join(os.path.dirname(__file__), '..', 'templates').replace('\\','/'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

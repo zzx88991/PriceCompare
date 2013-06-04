@@ -4,7 +4,6 @@ from django.db import models
 from django.forms import ModelForm
 from django.core.exceptions import ValidationError
 import re
-import chardet
 
 # ---
 # Custom Fields with Validation rules
