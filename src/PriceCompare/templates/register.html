@@ -92,11 +92,43 @@
 
     <div class="container">
       <form class="form-signin">
-        <h2 class="form-signin-heading">Please fill in the information table</h2>
-        <input type="text" class="input-block-level" placeholder="Email address">
-        <input type="text" class="input-block-level" placeholder="User name">
-        <input type="password" class="input-block-level" placeholder="Password">
-        <button class="btn btn-large btn-primary" type="submit">Register</button>
+        <h2 class="form-signin-heading">Finish the information table</h2>
+        <div class="control-group info">
+  	<label class="control-label" for="inputInfo">User Name</label>
+  	<div class="controls">
+   		<input type="text" id="inputInfo">
+    		<span class="help-inline">This name has been used</span>
+  	</div>
+	</div>
+        <div class="control-group warning">
+  	<label class="control-label" for="inputWarning">Password</label>
+  	<div class="controls">
+   		<input type="text" id="inputWarning">
+    		<span class="help-inline"> </span>
+  	</div>
+	</div>
+        <div class="control-group error">
+  	<label class="control-label" for="inputError">Password Again</label>
+  	<div class="controls">
+   		<input type="text" id="inputError">
+    		<span class="help-inline">You must type it the same</span>
+  	</div>
+	</div>
+        <div class="control-group warning">
+  	<label class="control-label" for="inputWarning">Email Address</label>
+  	<div class="controls">
+   		<input type="text" id="inputWarning">
+    		<span class="help-inline">Make Sure this email is right</span>
+  	</div>
+	</div>
+        <div class="control-group info">
+  	<label class="control-label" for="inputInfo">Phone Number</label>
+  	<div class="controls">
+   		<input type="text" id="inputInfo">
+    		<span class="help-inline"> </span>
+  	</div>
+	</div>
+	<button class="btn btn-large btn-primary" type="submit">Register</button>
       </form>
 
     </div> <!-- /container -->
@@ -129,5 +161,3 @@
 
   </body>
 </html>
-
-
