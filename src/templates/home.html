@@ -1,14 +1,160 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset='utf-8'>
-		<title>首页</title>
-	</head>
+{% extends 'base.html' %}
 
-	<body>
-		<h1>选择一个应用：</h1>
-		<p><a href="/PriceCompare">比价系统</a></p>
-	</body>
+{% block title %}比价系统 - 首页{% endblock %}
 
-</html>
 
+{% block content %}
+
+    <div class="container-fluid block-menu">
+        <div class="row-fluid">
+            <div class="pull-left">
+                <ul class="nav nav-tabs">
+                    <li><a href="#Home" data-toggle="tab"><i class="icon-home"></i> 主页</a></li>
+                    <li><a href="#Taobao" data-toggle="tab">淘宝</a></li>
+                    <li><a href="#Amazon" data-toggle="tab">亚马逊</a></li>
+                    <li><a href="#Jingdong" data-toggle="tab">京东</a></li>
+                    <li><a href="#Dangdang" data-toggle="tab">当当</a></li>
+                </ul>
+            </div>
+
+            <div class="btn-group pull-right">
+                <button id="sort-btn" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                    商品排序： <i class="icon-chevron-down"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="sort-id">名称</a></li>
+                    <li><a class="sort-id">价格</a></li>
+                </ul>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class=" container-fluid block-content">
+
+
+        <div class="tab-content">
+            <div class="tab-pane" id="Home">
+
+
+            </div>
+            <div class="tab-pane" id="Taobao">
+
+
+            </div>
+            <div class="tab-pane" id="Amazon">
+
+
+            </div>
+            <div class="tab-pane" id="Jingdong">
+
+            </div>
+            <div class="tab-pane" id="Dangdang">
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+    <script type="text/javascript">
+
+        window['search_query'] = '';
+        window['after_search'] = false;
+        window['sort'] = '名称';
+
+
+        // 从顶部获取搜索字符串，重新搜索
+        function search() {
+
+            var sort;
+
+            window['search_query'] = $('#search_query').val();
+            if(window['sort'] == '价格')
+                sort = 'price';
+            else
+                sort = 'name';
+
+            $(".tab-pane.active").load(
+                    "/ajax/search/",
+                    {
+                        search_query: window['search_query'],
+                        sort: sort
+                    },
+                    function (data) {
+                        $(this).html(data);
+                    });
+
+            window['after_search'] = true;
+
+            $('.nav-tabs li.active').removeClass("active");
+
+        }
+
+        // 重新加载焦点页面
+        function load_pane() {
+            var site = $(".tab-pane.active").attr("id");
+            $('.tab-pane.active').load(
+                    "/ajax/items/",
+                    {
+                        site: site,
+                        sort: window['sort']
+                    },
+                    function (data) {
+                        $(this).html(data);
+                        $('.carousel').carousel();
+                    });
+        }
+
+
+        $(document).ready(function () {
+
+            $('.nav-tabs li:first').addClass('active');
+            $('#Home').addClass("active");
+
+            // 是否需要搜索
+
+            if ($('#search_query').val() != '')
+                search();
+
+            else
+                load_pane();
+
+            // 切换不同站点的商品
+            $('.nav-tabs li a').click(function () {
+
+                setTimeout(function () {
+                    load_pane();
+
+                }, 100);
+
+                window['after_search'] = false;
+
+
+            });
+
+            // 重新排序（引发重新加载）
+
+            $('.sort-id').click(function () {
+
+                window['sort'] = $(this).text();
+                $('#sort-btn').text('商品排序： ' + window['sort']);
+
+                if (window['after_search'])
+                    search();
+                else
+                    load_pane();
+
+
+            });
+        });
+    </script>
+
+
+
+{% endblock %}

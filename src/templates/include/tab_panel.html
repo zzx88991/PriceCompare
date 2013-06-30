@@ -1,0 +1,45 @@
+
+
+{% if page_list %}
+
+    <div id="myCarousel" class="carousel slide">
+        <ol class="carousel-indicators">
+            {% for page in page_list %}
+                {% ifequal forloop.counter0 0 %}
+                    <li class="active" data-target="#myCarousel" data-slide-to="{{ forloop.counter0 }}"></li>
+                {% else %}
+                    <li data-target="#myCarousel" data-slide-to="{{ forloop.counter0 }}"></li>
+                {% endifequal %}
+            {% endfor %}
+        </ol>
+        <!-- Carousel items -->
+        <div class="carousel-inner">
+            {% for page in page_list %}
+                {% ifequal forloop.counter0 0 %}
+                    <div class="active item">
+                {% else %}
+                    <div class="item">
+                {% endifequal %}
+
+
+            <ul class="thumbnails">
+
+                {% for item in page %}
+
+                    {% include "include/item_brief.html" %}
+                {% endfor %}
+
+            </ul>
+
+            </div>
+            {% endfor %}
+            </div>
+            <!-- Carousel nav -->
+            <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+        </div>
+
+
+        {% else %}
+        <div class="alert alert-info"><p><strong>目前还没有商品信息。</strong></p></div>
+{% endif %}

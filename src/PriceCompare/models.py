@@ -1,68 +1,40 @@
 # coding: utf8
 
 from django.db import models
-from django.forms import ModelForm
-from django.core.exceptions import ValidationError
-import re
-
-# ---
-# Custom Fields with Validation rules
-# ---
-
-class NameField(models.CharField):
-	def to_python(self, value):
-		value = value.strip()
-		if not re.match(ur'^[a-zA-Z0-9\u4e00-\u9fa5]+$', value):
-			raise ValidationError('用户名必须为字母，数字和汉字的组合且不能为空！')
-		return value
-
-class PasswordField(models.CharField):
-	def to_python(self, value):
-		value = value.strip()
-		if not re.match(r'^[_a-zA-Z0-9]{6,}$', value):
-			raise ValidationError('用户名必须为字母，数字和下划线的组合且至少六位！')
-		return value
+from django.contrib.auth.models import User
 
 
+SITE_CHOICES = (
+    ('t', '淘宝'),
+    ('a', '亚马逊'),
+    ('j', '京东'),
+    ('d', '当当'),
+)
 
+class Item(models.Model):
+    """
+    定义单件商品的信息
+    """
 
-# ---
-# Models
-# ---
+    name = models.CharField("商品名",max_length=255)
+    price = models.DecimalField("价格", max_digits=10, decimal_places=2)
+    site = models.CharField("来源网站", max_length=1, choices=SITE_CHOICES)
+    url = models.URLField("商品链接")
+    img = models.URLField("缩略图链接")
 
-class User(models.Model):
-	name = NameField(max_length = 20, unique=True)
-	password = PasswordField(max_length = 15)
-	email = models.EmailField(max_length=254, null=True, blank=True)
-	
-	def __unicode__(self):
-		return self.name
+    # statistic info
+    click_num = models.IntegerField("点击数", default=0)
 
+    def __unicode__(self):
+        return self.name
 
+class UserInfo(models.Model):
+    '''
+    建立到auth.models.User的一一映射
+    记录邮箱地址hash值, 和所有用户-商品之间的多对多关系
+    '''
+    user = models.OneToOneField(User, primary_key=True, related_name='userinfo')
+    hash = models.CharField(max_length=255)
 
-class UserForm(ModelForm):
-	class Meta:
-		model = User
-		fields = ['name', 'password', 'email']
-
-class Good(models.Model):
-
-	# Enum type for sites
-	TAOBAO = 1
-	AMAZON = 2
-	JINGDONG = 3
-	DANGDANG = 4
-	SITE_CHOICES = (
-			(TAOBAO, 'taobao'),
-			(AMAZON, 'amazon'),
-			(JINGDONG, 'jingdong'),
-			(DANGDANG, 'dangdang'),
-		)
-	name = models.CharField(max_length = 100)
-	price = models.DecimalField(max_digits=10, decimal_places=2)
-	site = models.IntegerField(choices=SITE_CHOICES)
-	picUrl = models.URLField(max_length = 200, null=True, blank=True)
-
-	def __unicode__(self):
-		return self.name
+    favorite = models.ManyToManyField(Item, related_name='favorite')
 
