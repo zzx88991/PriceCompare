@@ -1,8 +1,6 @@
 # Django settings for bsite project.
 import os
 
-ROOT_PATH = os.path.dirname(__file__)
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -15,7 +13,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'bsite_DB',                      # Or path to database file if using sqlite3.
+        'NAME': 'PriceCompare.db',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
@@ -67,6 +65,7 @@ MEDIA_URL = ''
 STATIC_ROOT = ''
 
 # URL prefix for static files.
+
 # Example: "http://example.com/static/", "http://static.example.com/"
 STATIC_URL = '/static/'
 
@@ -75,6 +74,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(os.path.dirname(__file__), '..', 'static').replace('\\','/'),
 )
 
 # List of finder classes that know how to find static files in
@@ -105,17 +105,13 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'bsite.urls'
+ROOT_URLCONF = 'PriceCompare.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'bsite.wsgi.application'
+WSGI_APPLICATION = 'PriceCompare.wsgi.application'
 
-TEMPLATE_DIRS = (
-		os.path.join(ROOT_PATH, 'templates').replace('\\', '/'),
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
+TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), '..', 'templates').replace('\\','/'),)
+
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -127,7 +123,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'django.contrib.admindocs',
 	'PriceCompare',
 )
 

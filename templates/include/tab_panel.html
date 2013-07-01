@@ -1,0 +1,51 @@
+<!-- 装载一个选项卡页面的内容，用商品列表填充-->
+
+{% if page_list %}
+
+    <div class="alert alert-info">
+
+        <p class="wrapper"><strong>显示结果数： {{ total_item_num }}</strong></p>
+
+    </div>
+
+    <div id="Carousel{{ site }}" class="carousel slide">
+        <ol class="carousel-indicators">
+            {% for page in page_list %}
+                {% ifequal forloop.counter0 0 %}
+                    <li class="active" data-target="#Carousel{{ site }}" data-slide-to="{{ forloop.counter0 }}"></li>
+                {% else %}
+                    <li data-target="#Carousel{{ site }}" data-slide-to="{{ forloop.counter0 }}"></li>
+                {% endifequal %}
+            {% endfor %}
+        </ol>
+        <!-- Carousel items -->
+        <div class="carousel-inner">
+            {% for page in page_list %}
+                {% ifequal forloop.counter0 0 %}
+                    <div class="active item">
+                {% else %}
+                    <div class="item">
+                {% endifequal %}
+
+
+            <ul class="thumbnails">
+
+                {% for item in page %}
+
+                    {% include "include/item_brief.html" %}
+                {% endfor %}
+
+            </ul>
+
+            </div>
+            {% endfor %}
+            </div>
+            <!-- Carousel nav -->
+            <a class="carousel-control left" href="#Carousel{{ site }}" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right" href="#Carousel{{ site }}" data-slide="next">&rsaquo;</a>
+        </div>
+
+
+        {% else %}
+        <div class="alert alert-info"><p><strong>目前还没有商品信息。</strong></p></div>
+{% endif %}
