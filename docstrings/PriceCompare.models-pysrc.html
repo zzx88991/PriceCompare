@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>PriceCompare.models</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="PriceCompare-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="PriceCompare-module.html">Package&nbsp;PriceCompare</a> ::
+        Module&nbsp;models
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="PriceCompare.models-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="PriceCompare.models-module.html">Module PriceCompare.models</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-comment"># coding: utf8</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">db</tt> <tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Module PriceCompare.models=PriceCompare.models-module.html"><a title="PriceCompare.models" class="py-name" href="#" onclick="return doclink('link-0', 'models', 'link-0');">models</a></tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt><tt class="py-op">.</tt><tt class="py-name">auth</tt><tt class="py-op">.</tt><tt id="link-1" class="py-name"><a title="PriceCompare.models" class="py-name" href="#" onclick="return doclink('link-1', 'models', 'link-0');">models</a></tt> <tt class="py-keyword">import</tt> <tt class="py-name">User</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt id="link-2" class="py-name" targets="Variable PriceCompare.models.SITE_CHOICES=PriceCompare.models-module.html#SITE_CHOICES"><a title="PriceCompare.models.SITE_CHOICES" class="py-name" href="#" onclick="return doclink('link-2', 'SITE_CHOICES', 'link-2');">SITE_CHOICES</a></tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">'t'</tt><tt class="py-op">,</tt> <tt class="py-string">'&#28120;&#23453;'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">'a'</tt><tt class="py-op">,</tt> <tt class="py-string">'&#20122;&#39532;&#36874;'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">'j'</tt><tt class="py-op">,</tt> <tt class="py-string">'&#20140;&#19996;'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">'d'</tt><tt class="py-op">,</tt> <tt class="py-string">'&#24403;&#24403;'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"><tt class="py-op">)</tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line"> </tt>
+<a name="Item"></a><div id="Item-def"><a name="L14"></a><tt class="py-lineno">14</tt> <a class="py-toggle" href="#" id="Item-toggle" onclick="return toggle('Item');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="PriceCompare.models.Item-class.html">Item</a><tt class="py-op">(</tt><tt class="py-base-class">models</tt><tt class="py-op">.</tt><tt class="py-base-class">Model</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Item-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="Item-expanded"><a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line"><tt class="py-docstring">    &#23450;&#20041;&#21333;&#20214;&#21830;&#21697;&#30340;&#20449;&#24687;</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line"> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line">    <tt id="link-3" class="py-name" targets="Variable PriceCompare.models.Item.name=PriceCompare.models.Item-class.html#name"><a title="PriceCompare.models.Item.name" class="py-name" href="#" onclick="return doclink('link-3', 'name', 'link-3');">name</a></tt> <tt class="py-op">=</tt> <tt id="link-4" class="py-name"><a title="PriceCompare.models" class="py-name" href="#" onclick="return doclink('link-4', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-string">"&#21830;&#21697;&#21517;"</tt><tt class="py-op">,</tt><tt class="py-name">max_length</tt><tt class="py-op">=</tt><tt class="py-number">255</tt><tt class="py-op">,</tt> <tt class="py-name">default</tt><tt class="py-op">=</tt><tt class="py-string">'&#26080;&#21517;&#27663;'</tt><tt class="py-op">)</tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line">    <tt id="link-5" class="py-name" targets="Variable PriceCompare.models.Item.price=PriceCompare.models.Item-class.html#price"><a title="PriceCompare.models.Item.price" class="py-name" href="#" onclick="return doclink('link-5', 'price', 'link-5');">price</a></tt> <tt class="py-op">=</tt> <tt id="link-6" class="py-name"><a title="PriceCompare.models" class="py-name" href="#" onclick="return doclink('link-6', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">DecimalField</tt><tt class="py-op">(</tt><tt class="py-string">"&#20215;&#26684;"</tt><tt class="py-op">,</tt> <tt class="py-name">max_digits</tt><tt class="py-op">=</tt><tt class="py-number">10</tt><tt class="py-op">,</tt> <tt class="py-name">decimal_places</tt><tt class="py-op">=</tt><tt class="py-number">2</tt><tt class="py-op">,</tt> <tt class="py-name">default</tt><tt class="py-op">=</tt><tt class="py-number">0</tt><tt class="py-op">)</tt> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line">    <tt id="link-7" class="py-name" targets="Variable PriceCompare.models.Item.site=PriceCompare.models.Item-class.html#site"><a title="PriceCompare.models.Item.site" class="py-name" href="#" onclick="return doclink('link-7', 'site', 'link-7');">site</a></tt> <tt class="py-op">=</tt> <tt id="link-8" class="py-name"><a title="PriceCompare.models" class="py-name" href="#" onclick="return doclink('link-8', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-string">"&#26469;&#28304;&#32593;&#31449;"</tt><tt class="py-op">,</tt> <tt class="py-name">max_length</tt><tt class="py-op">=</tt><tt class="py-number">1</tt><tt class="py-op">,</tt> <tt class="py-name">choices</tt><tt class="py-op">=</tt><tt id="link-9" class="py-name"><a title="PriceCompare.models.SITE_CHOICES" class="py-name" href="#" onclick="return doclink('link-9', 'SITE_CHOICES', 'link-2');">SITE_CHOICES</a></tt><tt class="py-op">,</tt> <tt class="py-name">default</tt><tt class="py-op">=</tt><tt class="py-string">'t'</tt><tt class="py-op">)</tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">    <tt id="link-10" class="py-name" targets="Variable PriceCompare.models.Item.url=PriceCompare.models.Item-class.html#url"><a title="PriceCompare.models.Item.url" class="py-name" href="#" onclick="return doclink('link-10', 'url', 'link-10');">url</a></tt> <tt class="py-op">=</tt> <tt id="link-11" class="py-name"><a title="PriceCompare.models" class="py-name" href="#" onclick="return doclink('link-11', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">URLField</tt><tt class="py-op">(</tt><tt class="py-string">"&#21830;&#21697;&#38142;&#25509;"</tt><tt class="py-op">,</tt> <tt class="py-name">unique</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line">    <tt id="link-12" class="py-name" targets="Variable PriceCompare.models.Item.img=PriceCompare.models.Item-class.html#img"><a title="PriceCompare.models.Item.img" class="py-name" href="#" onclick="return doclink('link-12', 'img', 'link-12');">img</a></tt> <tt class="py-op">=</tt> <tt id="link-13" class="py-name"><a title="PriceCompare.models" class="py-name" href="#" onclick="return doclink('link-13', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">URLField</tt><tt class="py-op">(</tt><tt class="py-string">"&#32553;&#30053;&#22270;&#38142;&#25509;"</tt><tt class="py-op">,</tt> <tt class="py-name">default</tt><tt class="py-op">=</tt><tt class="py-string">''</tt><tt class="py-op">)</tt> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line"> </tt>
+<a name="Item.__unicode__"></a><div id="Item.__unicode__-def"><a name="L25"></a><tt class="py-lineno">25</tt> <a class="py-toggle" href="#" id="Item.__unicode__-toggle" onclick="return toggle('Item.__unicode__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="PriceCompare.models.Item-class.html#__unicode__">__unicode__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Item.__unicode__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Item.__unicode__-expanded"><a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-14" class="py-name"><a title="PriceCompare.models.Item.name" class="py-name" href="#" onclick="return doclink('link-14', 'name', 'link-3');">name</a></tt> </tt>
+</div></div><a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line"> </tt>
+<a name="UserInfo"></a><div id="UserInfo-def"><a name="L28"></a><tt class="py-lineno">28</tt> <a class="py-toggle" href="#" id="UserInfo-toggle" onclick="return toggle('UserInfo');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="PriceCompare.models.UserInfo-class.html">UserInfo</a><tt class="py-op">(</tt><tt class="py-base-class">models</tt><tt class="py-op">.</tt><tt class="py-base-class">Model</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="UserInfo-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="UserInfo-expanded"><a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">    <tt class="py-docstring">'''</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line"><tt class="py-docstring">    &#24314;&#31435;&#21040;auth.models.User&#30340;&#19968;&#19968;&#26144;&#23556;</tt> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line"><tt class="py-docstring">    &#35760;&#24405;&#37038;&#31665;&#22320;&#22336;hash&#20540;, &#21644;&#25152;&#26377;&#29992;&#25143;-&#21830;&#21697;&#20043;&#38388;&#30340;&#22810;&#23545;&#22810;&#20851;&#31995;</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line"><tt class="py-docstring">    '''</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">    <tt id="link-15" class="py-name" targets="Function PriceCompare.ajax.user()=PriceCompare.ajax-module.html#user,Variable PriceCompare.models.UserInfo.user=PriceCompare.models.UserInfo-class.html#user"><a title="PriceCompare.ajax.user
+PriceCompare.models.UserInfo.user" class="py-name" href="#" onclick="return doclink('link-15', 'user', 'link-15');">user</a></tt> <tt class="py-op">=</tt> <tt id="link-16" class="py-name"><a title="PriceCompare.models" class="py-name" href="#" onclick="return doclink('link-16', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">OneToOneField</tt><tt class="py-op">(</tt><tt class="py-name">User</tt><tt class="py-op">,</tt> <tt class="py-name">primary_key</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">,</tt> <tt class="py-name">related_name</tt><tt class="py-op">=</tt><tt class="py-string">'userinfo'</tt><tt class="py-op">)</tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">    <tt id="link-17" class="py-name" targets="Variable PriceCompare.models.UserInfo.hash=PriceCompare.models.UserInfo-class.html#hash"><a title="PriceCompare.models.UserInfo.hash" class="py-name" href="#" onclick="return doclink('link-17', 'hash', 'link-17');">hash</a></tt> <tt class="py-op">=</tt> <tt id="link-18" class="py-name"><a title="PriceCompare.models" class="py-name" href="#" onclick="return doclink('link-18', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">max_length</tt><tt class="py-op">=</tt><tt class="py-number">255</tt><tt class="py-op">)</tt> </tt>
+<a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line"> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">    <tt id="link-19" class="py-name" targets="Function PriceCompare.ajax.favorite()=PriceCompare.ajax-module.html#favorite,Variable PriceCompare.models.UserInfo.favorite=PriceCompare.models.UserInfo-class.html#favorite"><a title="PriceCompare.ajax.favorite
+PriceCompare.models.UserInfo.favorite" class="py-name" href="#" onclick="return doclink('link-19', 'favorite', 'link-19');">favorite</a></tt> <tt class="py-op">=</tt> <tt id="link-20" class="py-name"><a title="PriceCompare.models" class="py-name" href="#" onclick="return doclink('link-20', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">ManyToManyField</tt><tt class="py-op">(</tt><tt id="link-21" class="py-name" targets="Class PriceCompare.models.Item=PriceCompare.models.Item-class.html"><a title="PriceCompare.models.Item" class="py-name" href="#" onclick="return doclink('link-21', 'Item', 'link-21');">Item</a></tt><tt class="py-op">,</tt> <tt class="py-name">related_name</tt><tt class="py-op">=</tt><tt class="py-string">'favorite'</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="PriceCompare-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Jul  2 07:54:03 2013
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
