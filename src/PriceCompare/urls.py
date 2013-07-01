@@ -20,8 +20,6 @@ urlpatterns = patterns('',
 
 'logout'),
 
-    # user management
-    url(r'^manage/$', 'PriceCompare.views.manage', name='manage'),
 
     # admin
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

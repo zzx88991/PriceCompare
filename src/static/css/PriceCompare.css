@@ -1,9 +1,9 @@
-/*In case covered by top navbar*/
+/*避免顶部导航条覆盖*/
 body {
     padding: 70px;
 }
 
-/*Used to centralize*/
+/*居中显示*/
 .wrapper {
     width: auto;
     display: table;
@@ -18,16 +18,12 @@ body {
     background-color: rgb(245, 245, 245);
 }
 
-/*The top menu of content block*/
+/*块菜单*/
 .block-menu {
     height: 37px;
     border-width: 1px;
     border-style: solid;
     border-color: rgb(231, 231, 231) rgb(231, 231, 231) rgb(223, 223, 223);
-    -moz-border-top-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
     border-image: none;
     border-radius: 7px 7px 0px 0px;
     background-color: rgb(246, 246, 246);
@@ -35,21 +31,17 @@ body {
     background-repeat: repeat-x;
 }
 
-/*Main area of content block*/
+/*块区域*/
 .block-content {
 
     border-width: medium 1px 1px;
     border-style: none solid solid;
     border-color: rgb(231, 231, 231) rgb(231, 231, 231) rgb(231, 231, 231);
-    -moz-border-top-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
     border-image: none;
     padding-top: 20px;
 }
 
-/*Polish titles in the block*/
+/*块标题*/
 .block-title {
     font-size: 22px;
     color: rgb(37, 38, 39);
@@ -61,66 +53,9 @@ body {
     overflow: hidden;
 }
 
-/*Thumbnails showed on homepage*/
+/*缩略图*/
 .brief-pic {
-    height: 90px;
+    height: 120px;
     width: 120px;
     overflow: hidden;
-}
-
-/*Information area of the post*/
-.post-left-col {
-    border-right: 1px solid rgb(231, 231, 231);
-    padding-top: 20px;
-
-}
-
-/*Comment area of the post (by Disqus)*/
-.post-right-col {
-    padding-top: 20px;
-}
-
-/*Post information*/
-.post-info {
-    margin: 10px;
-}
-
-/*picture showed in post*/
-.post-pic {
-    margin-bottom: 20px;
-    padding: 5px;
-    background: none repeat scroll 0% 0% rgb(255, 255, 255);
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
-}
-
-/*digest for the post*/
-.post-digest {
-    margin-bottom: 20px;
-    margin-top: 20px;
-    color: rgb(114, 116, 118);
-    font-size: 13px;
-    text-align: justify;
-}
-
-/*Play, like, favorite*/
-.post-numbers {
-    margin-bottom: 20px;
-    padding: 10px 10px;
-    border: 1px solid rgb(226, 226, 226);
-    border-radius: 4px 4px 4px 4px;
-    background-color: rgb(252, 252, 252);
-    background-image: linear-gradient(to bottom, rgb(255, 255, 255), rgb(248, 248, 248));
-    background-repeat: repeat-x;
-}
-
-/*Container in the information block*/
-.post-aside-block {
-    margin-bottom: 10px;
-}
-
-.post-aside-title {
-    font-size: 14px;
-    line-height: 18px;
-    margin-bottom: 10px;
 }

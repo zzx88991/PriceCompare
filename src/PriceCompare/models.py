@@ -22,9 +22,6 @@ class Item(models.Model):
     url = models.URLField("商品链接", unique=True)
     img = models.URLField("缩略图链接", default='')
 
-    # statistic info
-    click_num = models.IntegerField("点击数", default=0)
-
     def __unicode__(self):
         return self.name
 

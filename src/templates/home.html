@@ -13,7 +13,10 @@
                     <li><a href="#Taobao" data-toggle="tab">淘宝</a></li>
                     <li><a href="#Amazon" data-toggle="tab">亚马逊</a></li>
                     <li><a href="#Jingdong" data-toggle="tab">京东</a></li>
-                    <li><a href="#Dangdang" data-toggle="tab">当当</a></li>
+
+                    <label class="checkbox inline" style="margin-top: 3px">
+                        <input type="checkbox" id="check-fav" value="no"> 只显示收藏商品
+                    </label>
                 </ul>
             </div>
 
@@ -42,6 +45,14 @@
                 </ul>
             </div>
 
+            <div class="input-prepend input-append pull-right">
+                <span class="add-on">价格区间：</span>
+                <input class="input-small price-low" id="prependedInput" type="text">
+                <span class="add-on">到</span>
+                <input class="input-small price-high" id="appendedInputButton" type="text">
+                <button class="btn btn-info" type="button" id="btn-price">确定</button>
+            </div>
+
 
         </div>
 
@@ -67,12 +78,17 @@
             <div class="tab-pane" id="Jingdong">
 
             </div>
-            <div class="tab-pane" id="Dangdang">
 
-
-            </div>
         </div>
 
+
+    </div>
+
+
+    <div id="more-div" class="alert alert-info">
+
+        <p class="wrapper"><strong>对当前结果不满意，想搜索更多？</strong></p>
+        <button id="more-btn" class="btn btn-success wrapper">继续检索</button>
 
     </div>
 
@@ -81,99 +97,12 @@
     <script type="text/javascript">
 
         window['search_query'] = '';
+        window['search_page'] = 0; // 每次检索互联网的页数
         window['sort'] = '名称';
-        window['num'] = 9;
-
-
-        // 核心函数，用于向服务器本地数据库查询商品
-        function search() {
-
-            // 生成排序参数
-            var sort;
-            if (window['sort'] == '价格（升序）')
-                sort = 'price';
-            else if (window['sort'] == '价格（降序）')
-                sort = '-price';
-            else
-                sort = 'name';
-
-            // 生成站点来源参数
-            var site = $(".tab-pane.active").attr("id");
-
-            $(".tab-pane.active").load(
-                    "/ajax/search/",
-                    {
-                        search_query: window['search_query'],
-                        sort: sort,
-                        num: window['num'],
-                        site: site
-                    },
-                    function (data) {
-                        $(this).html(data);
-
-                        $('.carousel').carousel();
-                    });
-
-        }
-
-        //用于检索互联网以更新数据库
-        function update() {
-
-            // 提示用户正在更新
-            var msg = $.globalMessenger().post({
-                message: '您看到的是目前我们本地数据库里的商品信息，后台正在努力为您检索最新的相关商品，请耐心等待，谢谢！',
-                type: 'info',
-                showCloseButton: true,
-                actions: {
-                    confirm: {
-                        label: '好的',
-                        action: function () {
-                            msg.hide();
-                        }
-                    }
-
-                }
-            });
-
-            $.post(
-                    "/ajax/update/",
-                    {
-                        search_query: window['search_query']
-                    },
-                    function (data, status, xhr) {
-                        // 如果返回222,表示更新完毕，再次执行搜索
-                        if (xhr.status == '222') {
-                            // 弹出提示窗口
-                            var msg = $.globalMessenger().post({
-                                message: '您所检索的商品信息已更新，是否立即重新搜索？',
-                                type: 'success',
-                                showCloseButton: true,
-                                actions: {
-                                    confirm: {
-                                        label: '确定',
-                                        action: function () {
-                                            search();
-                                            msg.hide();
-                                        }
-                                    },
-
-                                    cancel: {
-                                        label: '取消',
-                                        action: function () {
-                                            msg.hide();
-                                        }
-                                    }
-
-                                }
-                            });
-                        }
-
-
-                    }
-            );
-
-
-        }
+        window['num'] = 9; // 本地网站显示的每页商品数
+        window['price_low'] = 0; // 价格下界
+        window['price_high'] = 999999999; // 价格上界
+        window['check_fav'] = false; // 是否只显示收藏
 
 
         // 页面加载完毕开始执行
@@ -182,6 +111,9 @@
             // 激活主页
             $('.nav-tabs li:first').addClass('active');
             $('#Home').addClass("active");
+
+            // 隐藏深入搜索提示
+            $('#more-div').hide();
 
             // 设定消息通知属性
             $._messengerDefaults = {
@@ -233,6 +165,30 @@
 
                 search();
             });
+
+            // 按价格区间排序
+            $('#btn-price').click(function () {
+                window['price_low'] = $('.price-low').val();
+                window['price_high'] = $('.price-high').val();
+
+                search();
+            });
+
+            // 是否只显示收藏
+            $('#check-fav').click(function(){
+                window['check_fav'] = $(this).prop('checked');
+                search();
+            });
+
+
+            // 更深入的搜索
+            $('#more-btn').click(function () {
+
+                window['search_page'] += 1;
+                update();
+                $('#more-div').hide();
+            });
+
 
         });
     </script>

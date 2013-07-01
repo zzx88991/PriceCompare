@@ -14,16 +14,17 @@
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/messenger.min.js' %}"></script>
+    <script src="{% static 'js/PriceCompare.js' %}"></script>
 
     {% block inside_css %}{% endblock %}
 
 </head>
 
-<body>
+<body class="container-fluid">
 
 <div class="navbar navbar-fixed-top ">
     <div class="navbar-inner">
-        <div class="container">
+        <div class="container-fluid">
             <ul class="nav">
                 <li>
                     <div>
@@ -38,7 +39,8 @@
                 <li>
 
                     <div class="input-append" style="margin-top: 5px">
-                        <input type="text" id="search_query" placeholder="搜索" value="{% if query %}{{ query }}{% endif %}">
+                        <input type="text" id="search_query" placeholder="搜索"
+                               value="{% if query %}{{ query }}{% endif %}">
                         <button id="search_submit" class="btn btn-success"><i class="icon-search"></i></button>
                     </div>
 
@@ -62,7 +64,6 @@
                 <ul class="dropdown-menu">
 
                     {% if request.user.is_authenticated %}
-                        <li><a href="{% url 'manage' %}"><i class="icon-book"></i> 个人中心</a></li>
                         <li><a href="{% url 'logout' %}"><i class="icon-off"></i> 注销</a></li>
                     {% else %}
 
@@ -81,7 +82,7 @@
 <footer class="footer">
     <div class="container">
         <p>联系我们
-            <a target="_blank" href="mailto:koyabr@gmail.com">@koyabr</a>
+            <a target="_blank" href="mailto:koyabr@gmail.com">@LHY</a>
         </p>
 
     </div>

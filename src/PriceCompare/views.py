@@ -1,19 +1,15 @@
 # coding: utf8
 
 
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed
-from django.shortcuts import render_to_response, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_exempt
 
-from PriceCompare.models import Item
 from PriceCompare.forms import MyUserCreationForm
 
-import hashlib
 
 def home(request):
     '''
@@ -47,14 +43,4 @@ def register(request):
         form = MyUserCreationForm()
     return render_to_response("register.html", {
         'form': form,
-    }, context_instance=RequestContext(request))
-
-
-@login_required
-def manage(request):
-    '''
-    用户个人中心
-    '''
-    return render_to_response('manage.html', {
-        'request': request,
     }, context_instance=RequestContext(request))
