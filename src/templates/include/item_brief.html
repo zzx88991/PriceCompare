@@ -1,0 +1,51 @@
+<!-- 显示一个商品的摘要信息 -->
+
+<li class="span4">
+
+    {% if item in user.userinfo.favorite.all %}
+        <div item-id="{{ item.id }}" class="thumbnail alert-success" style="height: 150px">
+    {% else %}
+        <div item-id="{{ item.id }}" class="thumbnail" style="height: 150px">
+    {% endif %}
+
+
+    <div class="media">
+
+
+        <div class="brief-pic pull-left">
+            <a href="{{ item.url }}">
+                <img class="img-rounded" src="{{ item.img }}">
+            </a>
+        </div>
+
+        <div class="media-body">
+            <a href="{{ item.url }}">
+                <strong title="{{ item.name }}">
+                    {{ item.name|truncatechars:75 }}
+                </strong>
+            </a>
+
+            <div>
+                <span class="label label-important">￥ {{ item.price | floatformat:2 }}</span>
+                <span class="label label-inverse">{{ item.get_site_display }}</span>
+            </div>
+            <div style="margin-top: 20px">
+                    <span>
+
+                    <i item-id="{{ item.id }}" class="icon-heart icon-fav"></i>
+
+                    <em item-id="{{ item.id }}">{{ item.favorite.all|length }} 人收藏</em>
+                    </span>
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+    </div>
+
+
+</li>
+
