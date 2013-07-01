@@ -119,6 +119,22 @@
         //用于检索互联网以更新数据库
         function update() {
 
+            // 提示用户正在更新
+            var msg = $.globalMessenger().post({
+                message: '您看到的是目前我们本地数据库里的商品信息，后台正在努力为您检索最新的相关商品，请耐心等待，谢谢！',
+                type: 'info',
+                showCloseButton: true,
+                actions: {
+                    confirm: {
+                        label: '好的',
+                        action: function () {
+                            msg.hide();
+                        }
+                    }
+
+                }
+            });
+
             $.post(
                     "/ajax/update/",
                     {
@@ -126,8 +142,32 @@
                     },
                     function (data, status, xhr) {
                         // 如果返回222,表示更新完毕，再次执行搜索
-                            if (xhr.status == '222')
-                                search();
+                        if (xhr.status == '222') {
+                            // 弹出提示窗口
+                            var msg = $.globalMessenger().post({
+                                message: '您所检索的商品信息已更新，是否立即重新搜索？',
+                                type: 'success',
+                                showCloseButton: true,
+                                actions: {
+                                    confirm: {
+                                        label: '确定',
+                                        action: function () {
+                                            search();
+                                            msg.hide();
+                                        }
+                                    },
+
+                                    cancel: {
+                                        label: '取消',
+                                        action: function () {
+                                            msg.hide();
+                                        }
+                                    }
+
+                                }
+                            });
+                        }
+
 
                     }
             );
@@ -136,31 +176,43 @@
         }
 
 
+        // 页面加载完毕开始执行
         $(document).ready(function () {
 
+            // 激活主页
             $('.nav-tabs li:first').addClass('active');
             $('#Home').addClass("active");
 
-            // 是否通过搜索跳转
+            // 设定消息通知属性
+            $._messengerDefaults = {
+                extraClasses: 'messenger-fixed messenger-theme-future messenger-on-bottom'
+            }
+
+            // 是否通过搜索跳转到此页面
 
             if ($('#search_query').val() != '') {
                 window['search_query'] = $('#search_query').val();
                 update(); // 由于是首次提交关键字，向服务器请求执行跨站搜索以更新数据库
             }
 
+            // 检索本地数据库，显示商品列表
             search();
+
+            ///////////////
+            // 下面是事件函数
+            ///////////////
 
             // 切换不同站点的商品
             $('.nav-tabs li a').click(function () {
 
                 setTimeout(function () {
-                    search()
+                    search();
 
                 }, 100);
 
             });
 
-            // 重新排序（引发重新加载）
+            // 重新排序
 
             $('.sort-id').click(function () {
 
@@ -173,7 +225,7 @@
             });
 
 
-            // 设定每页数量（引发重新加载）
+            // 设定每页数量
             $('.num-id').click(function () {
 
                 window['num'] = $(this).text();

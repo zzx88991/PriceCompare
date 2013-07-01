@@ -181,7 +181,7 @@ def search_t(query):
     '''
     抓取淘宝数据
     '''
-    query_url = ('http://s.taobao.com/search?q='+query).encode('utf8')
+    query_url = ('http://s.taobao.com/search?tab=all&cd=false&dc=1&q='+query).encode('utf8')
     page = urllib.urlopen(urllib.unquote(query_url)).read()
     soup = BeautifulSoup(''.join(page), fromEncoding="GB18030")
 
@@ -226,18 +226,23 @@ def search_a(query):
     page = urllib.urlopen(urllib.unquote(query_url)).read()
     soup = BeautifulSoup(''.join(page))
 
-    item_list = soup.findAll('div', {'id': re.compile('result_')})
+    item_list = soup.findAll('div', {'id': re.compile('result_'), 'class': re.compile('celwidget')})
 
     for item in item_list:
+        print item
         # 提取图片地址
-        img = item.find('img')['src']
-        # 提取商品名称
-        name = item.find('div', {'class': re.compile('productTitle')}).find('a').contents[0]
-        # 提取商品链接
-        url = item.find('div', {'class': re.compile('productTitle')}).find('a')['href']
-        # 提取商品价格
+        img = item.find('a').find('img')['src']
+
+        title_div = item.find('div', {'class': re.compile('productTitle')})
+        if title_div != None:
+            # 提取商品名称
+            name = title_div.find('a').contents[0]
+            # 提取商品链接
+            url = title_div.find('a')['href']
+
         price_div = item.find('div', {'class': re.compile('newPrice')})
         if price_div != None:
+            # 提取商品价格
             price = re.compile('\d*\.\d*').findall(price_div.find('span').contents[0])[0]
 
         new_item = Item.objects.get_or_create(url=url)[0]
