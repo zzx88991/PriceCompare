@@ -35,7 +35,7 @@
                 <li>
 
                     <div class="input-append" style="margin-top: 5px">
-                        <input type="text" id="search_query" placeholder="搜索" value="{% if query %} {{ query }}{% endif %}">
+                        <input type="text" id="search_query" placeholder="搜索" value="{% if query %}{{ query }}{% endif %}">
                         <button id="search_submit" class="btn btn-success"><i class="icon-search"></i></button>
                     </div>
 
@@ -99,6 +99,7 @@
         // 跳转搜索函数
         function search() {
             var query = $('#search_query').val();
+
 
             if (query != '')
                 window.location.href = "/?q=" + $('<div/>').text(query).html(); // 字符转译

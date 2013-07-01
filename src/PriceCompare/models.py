@@ -16,11 +16,11 @@ class Item(models.Model):
     定义单件商品的信息
     """
 
-    name = models.CharField("商品名",max_length=255)
-    price = models.DecimalField("价格", max_digits=10, decimal_places=2)
-    site = models.CharField("来源网站", max_length=1, choices=SITE_CHOICES)
-    url = models.URLField("商品链接")
-    img = models.URLField("缩略图链接")
+    name = models.CharField("商品名",max_length=255, default='无名氏')
+    price = models.DecimalField("价格", max_digits=10, decimal_places=2, default=0)
+    site = models.CharField("来源网站", max_length=1, choices=SITE_CHOICES, default='t')
+    url = models.URLField("商品链接", unique=True)
+    img = models.URLField("缩略图链接", default='')
 
     # statistic info
     click_num = models.IntegerField("点击数", default=0)

@@ -17,16 +17,32 @@
                 </ul>
             </div>
 
+
             <div class="btn-group pull-right">
                 <button id="sort-btn" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
                     商品排序： <i class="icon-chevron-down"></i>
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="sort-id">名称</a></li>
-                    <li><a class="sort-id">价格</a></li>
+                    <li><a class="sort-id">价格（升序）</a></li>
+                    <li><a class="sort-id">价格（降序）</a></li>
                 </ul>
 
             </div>
+
+            <div class="btn-group pull-right">
+
+                <button id="num-btn" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                    每页数量： <i class="icon-chevron-down"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="num-id">9</a></li>
+                    <li><a class="num-id">18</a></li>
+                    <li><a class="num-id">27</a></li>
+                </ul>
+            </div>
+
+
         </div>
 
     </div>
@@ -65,50 +81,58 @@
     <script type="text/javascript">
 
         window['search_query'] = '';
-        window['after_search'] = false;
         window['sort'] = '名称';
+        window['num'] = 9;
 
 
-        // 从顶部获取搜索字符串，重新搜索
+        // 核心函数，用于向服务器本地数据库查询商品
         function search() {
 
+            // 生成排序参数
             var sort;
-
-            window['search_query'] = $('#search_query').val();
-            if(window['sort'] == '价格')
+            if (window['sort'] == '价格（升序）')
                 sort = 'price';
+            else if (window['sort'] == '价格（降序）')
+                sort = '-price';
             else
                 sort = 'name';
+
+            // 生成站点来源参数
+            var site = $(".tab-pane.active").attr("id");
 
             $(".tab-pane.active").load(
                     "/ajax/search/",
                     {
                         search_query: window['search_query'],
-                        sort: sort
+                        sort: sort,
+                        num: window['num'],
+                        site: site
                     },
                     function (data) {
                         $(this).html(data);
+
+                        $('.carousel').carousel();
                     });
-
-            window['after_search'] = true;
-
-            $('.nav-tabs li.active').removeClass("active");
 
         }
 
-        // 重新加载焦点页面
-        function load_pane() {
-            var site = $(".tab-pane.active").attr("id");
-            $('.tab-pane.active').load(
-                    "/ajax/items/",
+        //用于检索互联网以更新数据库
+        function update() {
+
+            $.post(
+                    "/ajax/update/",
                     {
-                        site: site,
-                        sort: window['sort']
+                        search_query: window['search_query']
                     },
-                    function (data) {
-                        $(this).html(data);
-                        $('.carousel').carousel();
-                    });
+                    function (data, status, xhr) {
+                        // 如果返回222,表示更新完毕，再次执行搜索
+                            if (xhr.status == '222')
+                                search();
+
+                    }
+            );
+
+
         }
 
 
@@ -117,24 +141,22 @@
             $('.nav-tabs li:first').addClass('active');
             $('#Home').addClass("active");
 
-            // 是否需要搜索
+            // 是否通过搜索跳转
 
-            if ($('#search_query').val() != '')
-                search();
+            if ($('#search_query').val() != '') {
+                window['search_query'] = $('#search_query').val();
+                update(); // 由于是首次提交关键字，向服务器请求执行跨站搜索以更新数据库
+            }
 
-            else
-                load_pane();
+            search();
 
             // 切换不同站点的商品
             $('.nav-tabs li a').click(function () {
 
                 setTimeout(function () {
-                    load_pane();
+                    search()
 
                 }, 100);
-
-                window['after_search'] = false;
-
 
             });
 
@@ -145,13 +167,21 @@
                 window['sort'] = $(this).text();
                 $('#sort-btn').text('商品排序： ' + window['sort']);
 
-                if (window['after_search'])
-                    search();
-                else
-                    load_pane();
 
+                search();
 
             });
+
+
+            // 设定每页数量（引发重新加载）
+            $('.num-id').click(function () {
+
+                window['num'] = $(this).text();
+                $('#num-btn').text('每页数量： ' + window['num']);
+
+                search();
+            });
+
         });
     </script>
 

@@ -17,8 +17,10 @@
                 </a>
 
                 <div>
-                    <span class="label label-important" >￥ {{ item.price }}</span>
+                    <span class="label label-important" >￥ {{ item.price | floatformat:2 }}</span>
                     <span class="label label-inverse" >{{ item.get_site_display }}</span>
+                </div>
+                <div style="margin-top: 20px">
                     <span>
                     <i class="icon-hand-up"></i> {{ item.click_num }}
                     <i class="icon-heart"></i> {{ item.favorite.all|length }}

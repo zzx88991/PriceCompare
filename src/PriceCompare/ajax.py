@@ -8,11 +8,14 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 
+
 from PriceCompare.models import Item
 
 import re
 import json
-
+import urllib
+import chardet
+from BeautifulSoup import BeautifulSoup
 
 
 def split_list(origin_list, page_len=3):
@@ -81,29 +84,45 @@ def favorite(request):
 
 
 
+
 @csrf_exempt
-def items(request):
+def search(request):
     '''
-    浏览全部/指定商品
+    处理用户搜索请求
+    1、查询字符串不为空时，执行搜索
+    2、查询字符串为空时，执行浏览
 
-    @param request: POST类型，可选内容有：
-                    1. 商品来源 （四家网站）
-                    2. 商品排序 （名称或价格）
+    @param request: POST类型，包含查询字符串、是否本地查询、排序依据、来源站点
 
-    @return: HTML文件，包含商品信息列表
+    @return: HTML文件，包含查询结果列表
+
+
     '''
+    item_list = []
+
+    search_query = ''
+    if ('search_query' in request.POST) and request.POST['search_query'].strip():
+        search_query = request.POST['search_query']
+
 
     sort = 'name'
-    site = ''
-
     if 'sort' in request.POST:
         sort = request.POST['sort'].lower()
-    if 'site' in request.POST:
-        site = request.POST['site'].lower()
-
-    if sort != 'name' and sort != 'price':
+    if sort != 'name' and sort != 'price' and sort != '-price':
         sort = 'name'
 
+    num = 9
+    if 'num' in request.POST:
+        num = abs(int(request.POST['num'].lower()))
+    if num % 3 != 0:
+        num -= num % 3
+    if num <= 0:
+        num = 9
+
+
+    site = ''
+    if 'site' in request.POST:
+        site = request.POST['site'].lower()
     if site == 'taobao':
         site = 't'
     elif site == 'amazon':
@@ -117,73 +136,166 @@ def items(request):
     else:
         site = ''
 
-    if site == '': # 浏览全部商品
+    # POST信息处理完毕，开始处理
 
+    if search_query != '': # 用户请求本地检索
+        item_list = search_local(request.user, search_query, sort, site)
 
-        hot_list = Item.objects.order_by('-click_num')
-        fresh_list = Item.objects.order_by('-name')
-
-        hot_list = split_list(hot_list, 3)
-        fresh_list = split_list(fresh_list, 3)
-
-        return render_to_response('include/tab_panel_home.html', {
-            'hot_list': hot_list,
-            'fresh_list': fresh_list,
-        }, context_instance=RequestContext(request))
-
-
-    else:
-
+    else: # 用户请求浏览
         if site == 'f': # 浏览最爱商品
             item_list = request.user.userinfo.favorite.all()
-        else:
-            item_list = Item.objects.filter(site=site).order_by('-' + sort)
+        elif site == '': # 浏览全部商品
+            item_list = Item.objects.order_by(sort)
+        else: # 浏览指定站点商品
+            item_list = Item.objects.filter(site=site).order_by(sort)
 
-        page_list = split_list(item_list, 9)
-
-        return render_to_response('include/tab_panel.html', {
-            'page_list': page_list,
-        }, context_instance=RequestContext(request))
-
-
-@csrf_exempt
-def search(request):
-    '''
-    搜索商品
-
-    @param request: POST类型，包含查询字符串
-
-    @return: HTML文件，包含查询结果列表
-
-
-    '''
-    item_list = []
-
-    if ('search_query' in request.POST) and request.POST['search_query'].strip():
-        search_query = request.POST['search_query']
-
-        sort = 'name'
-        if 'sort' in request.POST:
-            sort = request.POST['sort'].lower()
-
-        if sort != 'name' and sort != 'price':
-            sort = 'name'
-
-        query = get_query(search_query, ['name', ])
-
-
-        item_list = Item.objects.filter(query).order_by('-' + sort)
-
-    page_list = split_list(item_list, 9)
+    page_list = split_list(item_list, num)
 
     return render_to_response('include/tab_panel.html', {
         'page_list': page_list,
+        'site': site,
     }, context_instance=RequestContext(request))
+
+
+@csrf_exempt
+def update(request):
+    '''
+    使用用户提供的关键字检索互联网以更新数据库，
+    更新完毕后发送特殊回复
+
+    @param request: POST类型，包含查询字符串
+    '''
+
+    search_query = ''
+    if ('search_query' in request.POST) and request.POST['search_query'].strip():
+        search_query = request.POST['search_query']
+
+    if search_query != '':
+        search_t(search_query)
+        search_a(search_query)
+        return HttpResponse(status='222')
+
+
+
+def search_t(query):
+    '''
+    抓取淘宝数据
+    '''
+    query_url = ('http://s.taobao.com/search?q='+query).encode('utf8')
+    page = urllib.urlopen(urllib.unquote(query_url)).read()
+    soup = BeautifulSoup(''.join(page), fromEncoding="GB18030")
+
+    # 第一层：非隐藏的几个商品
+    first_list = soup.findAll('div', {'class': re.compile('item')})
+
+    # 第二层：隐藏的多个商品
+    lazy_area = soup.find('textarea', {'class': re.compile('datalazyload')})
+    soup = BeautifulSoup(''.join(lazy_area.contents[0]))
+    second_list = soup.findAll('div', {'class': re.compile('item')})
+
+    item_list = first_list + second_list
+
+
+    for item in item_list:
+        # 提取图片地址
+        img = item.find('img')['src']
+        # 提取商品名称 （GB2312编码）
+        name = item.find('h3').find('a')['title']
+        #name = "".join(["%c" % unichr(ord(c)) for c in name])
+        # 提取商品链接
+        url = item.find('h3').find('a')['href']
+        # 提取商品价格
+        price = re.compile('\d*\.\d*').findall(item.find('div', {'class': re.compile('price')}).contents[0])[0]
+        new_item = Item.objects.get_or_create(url=url)[0]
+        new_item.name = name
+        new_item.price = price
+        new_item.img = img
+        new_item.site = 't'
+        if new_item != None:
+            print '一个野生的淘宝商品被加入了！'
+        new_item.save()
+
+
+
+
+def search_a(query):
+    '''
+    抓取亚马逊数据
+    '''
+    query_url = ('http://www.amazon.cn/s/field-keywords='+query).encode('utf8')
+    page = urllib.urlopen(urllib.unquote(query_url)).read()
+    soup = BeautifulSoup(''.join(page))
+
+    item_list = soup.findAll('div', {'id': re.compile('result_')})
+
+    for item in item_list:
+        # 提取图片地址
+        img = item.find('img')['src']
+        # 提取商品名称
+        name = item.find('div', {'class': re.compile('productTitle')}).find('a').contents[0]
+        # 提取商品链接
+        url = item.find('div', {'class': re.compile('productTitle')}).find('a')['href']
+        # 提取商品价格
+        price_div = item.find('div', {'class': re.compile('newPrice')})
+        if price_div != None:
+            price = re.compile('\d*\.\d*').findall(price_div.find('span').contents[0])[0]
+
+        new_item = Item.objects.get_or_create(url=url)[0]
+        new_item.name = name
+        new_item.price = price
+        new_item.img = img
+        new_item.site = 'a'
+        if new_item != None:
+            print '一个野生的亚马逊商品被加入了！'
+        new_item.save()
+
+
+def search_j(query):
+    '''
+    抓取京东数据
+    '''
+
+
+def search_d(query):
+    '''
+    抓取当当数据
+    '''
+
+
+
+def search_local(user, search_query, sort, site):
+    '''
+    从本地数据库中搜索商品
+
+    @param user: 提交搜索请求的用户
+
+    @param search_query: 查询字符串
+
+    @param sort: 排序依据
+
+    @param site: 选择站点
+
+    @return: 查询得到的商品列表
+
+
+    '''
+
+    query = get_query(search_query, ['name', ])
+
+    if site == 'f': # 搜索最爱商品
+        return user.userinfo.favorite.filter(query).order_by(sort)
+    elif site == '': # 搜索全部商品
+        return Item.objects.filter(query).order_by(sort)
+    else: # 搜索指定站点商品
+        return Item.objects.filter(site=site).filter(query).order_by(sort)
+
+
+
 
 
 def get_query(search_query, search_fields):
     '''
-    工具函数，用于生成有效的过滤器
+    工具函数，服务于search_local()，用于生成有效的过滤器
 
     @param search_query: 查询字符串
     @param search_fields: 目标字段（商品名）
@@ -210,3 +322,4 @@ def get_query(search_query, search_fields):
             query = query & or_query
 
     return query
+

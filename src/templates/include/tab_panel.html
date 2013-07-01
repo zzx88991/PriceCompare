@@ -2,13 +2,13 @@
 
 {% if page_list %}
 
-    <div id="myCarousel" class="carousel slide">
+    <div id="Carousel{{site}}" class="carousel slide">
         <ol class="carousel-indicators">
             {% for page in page_list %}
                 {% ifequal forloop.counter0 0 %}
-                    <li class="active" data-target="#myCarousel" data-slide-to="{{ forloop.counter0 }}"></li>
+                    <li class="active" data-target="#Carousel{{site}}" data-slide-to="{{ forloop.counter0 }}"></li>
                 {% else %}
-                    <li data-target="#myCarousel" data-slide-to="{{ forloop.counter0 }}"></li>
+                    <li data-target="#Carousel{{site}}" data-slide-to="{{ forloop.counter0 }}"></li>
                 {% endifequal %}
             {% endfor %}
         </ol>
@@ -35,8 +35,8 @@
             {% endfor %}
             </div>
             <!-- Carousel nav -->
-            <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-            <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+            <a class="carousel-control left" href="#Carousel{{site}}" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right" href="#Carousel{{site}}" data-slide="next">&rsaquo;</a>
         </div>
 
 

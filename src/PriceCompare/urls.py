@@ -30,9 +30,8 @@ urlpatterns = patterns('',
 
     # ajax
     url(r'^ajax/user/$', 'PriceCompare.ajax.user', name='ajax_user'),
-    url(r'^ajax/items/$', 'PriceCompare.ajax.items', name='ajax_items'),
-
     url(r'^ajax/favorite/$', 'PriceCompare.ajax.favorite', name='ajax_favorite'),
     # search
     url(r'^ajax/search/$', 'PriceCompare.ajax.search', name='ajax_search'),
+    url(r'^ajax/update/$', 'PriceCompare.ajax.update', name='ajax_update'),
 )
