@@ -1,3 +1,4 @@
+Adding feature of price compare in USA with the popular shopping websites
 
 一个简单的在线比价搜索站点
 =============
